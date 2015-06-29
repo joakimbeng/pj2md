@@ -127,7 +127,7 @@ function getParamsForMethod (name, method) {
       str = str.slice(1, -1);
     }
   }
-  params = str.split(ARG_SPLIT);
+  params = str.length ? str.split(ARG_SPLIT) : [];
   if (params.length !== method.length) {
     console.warn('Could not reliably get name of all parameters for: ' + name + '().\nWanted ' + method.length + ' parameters, got: "' + params.join('", "') + '"');
     if (params.length < method.length) {
