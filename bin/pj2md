@@ -1,0 +1,59 @@
+#!/usr/bin/env node
+var yargs = require('yargs');
+var pj2md = require('../');
+
+var argv = yargs
+  .usage('Usage: $0 [options]')
+  .option('b', {
+    alias: 'badges',
+    default: true,
+    describe: 'Add badges to readme, e.g. the npm badge',
+    type: 'boolean'
+  })
+  .option('t', {
+    alias: 'travis',
+    describe: 'Username for Travis account, if set a Travis build badge is included when adding badges to readme if .travis.yml exists',
+    type: 'string'
+  })
+  .option('m', {
+    alias: 'module',
+    default: true,
+    describe: 'Add module usage information to readme if package.json has a main section',
+    type: 'boolean'
+  })
+  .option('c', {
+    alias: 'cli',
+    default: true,
+    describe: 'Add cli usage information to readme if package.json has a bin section',
+    type: 'boolean'
+  })
+  .option('a', {
+    alias: 'api',
+    default: true,
+    describe: 'Add API information to readme if package.json has a main section',
+    type: 'boolean'
+  })
+  .option('l', {
+    alias: 'license',
+    default: true,
+    describe: 'Add license information to readme if package.json has a license section',
+    type: 'boolean'
+  })
+  .option('o', {
+    alias: 'out',
+    describe: 'Output file',
+    type: 'string'
+  })
+  .option('f', {
+    alias: 'force',
+    describe: 'Force overwrite output file if it already exists',
+    default: false,
+    type: 'boolean'
+  })
+  .wrap(null)
+  .example('$0 --no-api -f -o README.md', 'Generate (and overwrite) README.md without API information from current package.json file')
+  .help('h')
+  .alias('h', 'help')
+  .argv;
+
+pj2md(argv);

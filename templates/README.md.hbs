@@ -1,0 +1,36 @@
+# {{pkg.name}}
+{{#if badges}}
+
+{{#if travis}}[![Build status][travis-image]][travis-url] {{/if}}[![NPM version][npm-image]][npm-url]
+{{/if}}
+
+> {{pkg.description}}
+
+## Installation
+
+Install `{{pkg.name}}`{{#if pkg.preferGlobal }} globally{{/if}}{{#if pkg.peerDependencies}} and it's peers: {{#each pkg.peerDependencies}}{{#unless @first}}, {{/unless}}`{{@key}}`{{/each}}{{/if}} using [npm](https://www.npmjs.com/):
+
+```bash
+npm install {{#if pkg.preferGlobal }}-g{{else}}--save{{/if}}{{#each pkg.peerDependencies}} {{@key}}{{/each}} {{pkg.name}}
+```
+{{#if usage}}
+
+{{> usageSection}}
+{{/if}}
+{{#if api}}
+
+{{> apiSection}}
+{{/if}}
+{{#if pkg.license}}
+
+## License
+
+{{pkg.license}}
+{{/if}}
+{{#if badges}}
+
+[npm-url]: https://npmjs.org/package/{{pkg.name}}
+[npm-image]: https://badge.fury.io/js/{{pkg.name}}.svg
+{{#if travis}}[travis-url]: https://travis-ci.org/{{travis}}/{{pkg.name}}
+[travis-image]: https://travis-ci.org/{{travis}}/{{pkg.name}}.svg?branch=master{{/if}}
+{{/if}}

@@ -1,0 +1,12 @@
+## API
+{{#each methods}}
+
+### `{{name}}({{#each params}}{{#unless @first}}, {{/unless}}{{this}}{{/each}})`
+
+| Name | Type | Description |
+|------|------|-------------|
+{{#each params}}| {{this}} | `Mixed` | ... |
+{{/each}}
+
+...
+{{/each}}

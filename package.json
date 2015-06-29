@@ -1,0 +1,36 @@
+{
+  "name": "pj2md",
+  "version": "0.1.0",
+  "preferGlobal": true,
+  "description": "Generate a README in markdown from a package.json file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "pj2md": "bin/pj2md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joakimbeng/pj2md.git"
+  },
+  "keywords": [
+    "package.json",
+    "markdown",
+    "package",
+    "readme",
+    "info"
+  ],
+  "author": "Joakim Carlstein <joakim@klei.se>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joakimbeng/pj2md/issues"
+  },
+  "homepage": "https://github.com/joakimbeng/pj2md#readme",
+  "dependencies": {
+    "bluebird": "^2.9.30",
+    "camelcase": "^1.1.0",
+    "handlebars": "^3.0.3",
+    "yargs": "^3.14.0"
+  }
+}
