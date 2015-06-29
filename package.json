@@ -30,6 +30,7 @@
   "dependencies": {
     "bluebird": "^2.9.30",
     "camelcase": "^1.1.0",
+    "function-params": "^0.1.0",
     "handlebars": "^3.0.3",
     "yargs": "^3.14.0"
   }

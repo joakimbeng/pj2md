@@ -4,13 +4,10 @@ var path = require('path');
 var exec = require('child_process').exec;
 var Promise = require('bluebird');
 var camelcase = require('camelcase');
+var functionParams = require('function-params');
 var render = require('./templates');
 
 Promise.promisifyAll(fs);
-
-var STRIP_COMMENTS = /(\/\/.*$)|(\/\*[\s\S]*?\*\/)|(\s*=[^,\)]*(('(?:\\'|[^'\r\n])*')|("(?:\\"|[^"\r\n])*"))|(\s*=[^,\)]*))/mg;
-var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
-var ARG_SPLIT = /\s*,\s*/g;
 
 module.exports = exports = function pj2md (options) {
   options = options || {};
@@ -117,17 +114,7 @@ function getMethodsFromModule (moduleName, modulePath) {
 }
 
 function getParamsForMethod (name, method) {
-  var str = method.toString().replace(STRIP_COMMENTS, '').trim();
-  var params;
-  if (str.indexOf('function') === 0) {
-    str = str.match(FN_ARGS)[1];
-  } else if (str.indexOf('=>') > -1) {
-    str = str.split('=>')[0].trim();
-    if (str[0] === '(' && str[str.length - 1] === ')') {
-      str = str.slice(1, -1);
-    }
-  }
-  params = str.length ? str.split(ARG_SPLIT) : [];
+  var params = functionParams(method);
   if (params.length !== method.length) {
     console.warn('Could not reliably get name of all parameters for: ' + name + '().\nWanted ' + method.length + ' parameters, got: "' + params.join('", "') + '"');
     if (params.length < method.length) {
