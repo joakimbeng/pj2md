@@ -46,11 +46,11 @@ module.exports = exports = function pj2md (options) {
         pkg: pkg,
         moduleName: moduleName,
         badges: options.badges,
-        api: options.api,
-        module: options.module,
-        cli: options.cli,
+        api: options.api && pkg.main,
+        module: options.module && pkg.main,
+        cli: options.cli && pkg.bin,
         license: options.license,
-        usage: options.module || options.cli,
+        usage: options.module && pkg.main || options.cli && pkg.bin,
         travis: options.travis
       };
 
