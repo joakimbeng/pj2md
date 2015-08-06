@@ -3,11 +3,12 @@ var fs = require('fs');
 var path = require('path');
 var exec = require('child_process').exec;
 var Promise = require('bluebird');
+var readJson = Promise.promisify(require('read-package-json'));
 var camelcase = require('camelcase');
 var functionParams = require('function-params');
 var render = require('./templates');
 
-Promise.promisifyAll(fs);
+var writeFile = Promise.promisify(fs.writeFile);
 
 module.exports = exports = function pj2md (options) {
   options = options || {};
@@ -35,8 +36,7 @@ module.exports = exports = function pj2md (options) {
     options.travis = null;
   }
 
-  fs.readFileAsync(packageJsonPath, 'utf8')
-    .then(JSON.parse)
+  readJson(packageJsonPath)
     .then(function (pkg) {
       var moduleName = camelcase(pkg.name);
       var context = {
@@ -72,7 +72,7 @@ module.exports = exports = function pj2md (options) {
     .then(function (context) {
       var readme = render(context);
       if (options.out) {
-        return fs.writeFileAsync(path.resolve(options.out), readme, 'utf8');
+        return writeFile(path.resolve(options.out), readme, 'utf8');
       }
       console.log(render(context));
     })

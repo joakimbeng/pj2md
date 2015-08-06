@@ -32,6 +32,7 @@
     "camelcase": "^1.1.0",
     "function-params": "^0.1.0",
     "handlebars": "^3.0.3",
+    "read-package-json": "^2.0.0",
     "yargs": "^3.14.0"
   }
 }
