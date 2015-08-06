@@ -5,7 +5,7 @@
   "description": "Generate a README in markdown from a package.json file",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "semistandard"
   },
   "bin": {
     "pj2md": "bin/pj2md"
@@ -34,5 +34,8 @@
     "handlebars": "^3.0.3",
     "read-package-json": "^2.0.0",
     "yargs": "^3.14.0"
+  },
+  "devDependencies": {
+    "semistandard": "^7.0.2"
   }
 }
