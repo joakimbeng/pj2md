@@ -43,9 +43,15 @@ module.exports = exports = function pj2md (options) {
       var codestyle = null;
 
       if (moduleDependsOn(pkg, 'semistandard')) {
-        codestyle = 'semistandard';
+        codestyle = {
+          name: 'semistandard',
+          repo: 'Flet'
+        };
       } else if (moduleDependsOn(pkg, 'standard')) {
-        codestyle = 'standard';
+        codestyle = {
+          name: 'standard',
+          repo: 'feross'
+        };
       }
 
       var context = {

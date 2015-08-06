@@ -44,5 +44,5 @@ MIT
 
 [npm-url]: https://npmjs.org/package/pj2md
 [npm-image]: https://badge.fury.io/js/pj2md.svg
-[codestyle-url]: https://github.com/feross/semistandard
+[codestyle-url]: https://github.com/Flet/semistandard
 [codestyle-image]: https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg?style=flat
