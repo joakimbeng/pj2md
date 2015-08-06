@@ -1,7 +1,7 @@
 # {{pkg.name}}
 {{#if badges}}
 
-{{#if travis}}[![Build status][travis-image]][travis-url] {{/if}}[![NPM version][npm-image]][npm-url]
+{{#if travis}}[![Build status][travis-image]][travis-url] {{/if}}[![NPM version][npm-image]][npm-url]{{#if codestyle}} [![js-{{codestyle}}-style][codestyle-image]][codestyle-url]{{/if}}
 {{/if}}
 
 > {{pkg.description}}
@@ -30,7 +30,9 @@ npm install {{#if pkg.preferGlobal }}-g{{else}}--save{{/if}}{{#each pkg.peerDepe
 {{#if badges}}
 
 [npm-url]: https://npmjs.org/package/{{pkg.name}}
-[npm-image]: https://badge.fury.io/js/{{pkg.name}}.svg
-{{#if travis}}[travis-url]: https://travis-ci.org/{{travis}}/{{pkg.name}}
-[travis-image]: https://travis-ci.org/{{travis}}/{{pkg.name}}.svg?branch=master{{/if}}
+[npm-image]: https://badge.fury.io/js/{{pkg.name}}.svg{{#if travis}}
+[travis-url]: https://travis-ci.org/{{travis}}/{{pkg.name}}
+[travis-image]: https://travis-ci.org/{{travis}}/{{pkg.name}}.svg?branch=master{{/if}}{{#if codestyle}}
+[codestyle-url]: https://github.com/feross/{{codestyle}}
+[codestyle-image]: https://img.shields.io/badge/code%20style-{{codestyle}}-brightgreen.svg?style=flat{{/if}}
 {{/if}}

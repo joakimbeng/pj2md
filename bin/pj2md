@@ -15,6 +15,12 @@ var argv = yargs
     describe: 'Username for Travis account, if set a Travis build badge is included when adding badges to readme if .travis.yml exists',
     type: 'string'
   })
+  .option('s', {
+    alias: 'codestyle',
+    default: true,
+    describe: 'Add codestyle badge to readme if package.json depends on semistandard or standard',
+    type: 'boolean'
+  })
   .option('m', {
     alias: 'module',
     default: true,

@@ -15,6 +15,7 @@ module.exports = exports = function pj2md (options) {
   options.badges = typeof options.badges === 'undefined' ? true : options.badges;
   options.api = typeof options.api === 'undefined' ? true : options.api;
   options.module = typeof options.module === 'undefined' ? true : options.module;
+  options.codestyle = typeof options.codestyle === 'undefined' ? true : options.codestyle;
   options.cli = typeof options.cli === 'undefined' ? true : options.cli;
   options.license = typeof options.license === 'undefined' ? true : options.license;
 
@@ -39,6 +40,14 @@ module.exports = exports = function pj2md (options) {
   readJson(packageJsonPath)
     .then(function (pkg) {
       var moduleName = camelcase(pkg.name);
+      var codestyle = null;
+
+      if (moduleDependsOn(pkg, 'semistandard')) {
+        codestyle = 'semistandard';
+      } else if (moduleDependsOn(pkg, 'standard')) {
+        codestyle = 'standard';
+      }
+
       var context = {
         pkg: pkg,
         moduleName: moduleName,
@@ -48,7 +57,8 @@ module.exports = exports = function pj2md (options) {
         cli: options.cli && pkg.bin,
         license: options.license,
         usage: options.module && pkg.main || options.cli && pkg.bin,
-        travis: options.travis
+        travis: options.travis,
+        codestyle: options.codestyle && codestyle
       };
 
       if (options.api && pkg.main) {
@@ -126,6 +136,10 @@ function getParamsForMethod (name, method) {
     }
   }
   return params;
+}
+
+function moduleDependsOn (pkg, dependency) {
+  return pkg.devDependencies[dependency] || pkg.dependencies[dependency] || pkg.peerDependencies[dependency];
 }
 
 function run (cmd) {
