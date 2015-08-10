@@ -23,6 +23,6 @@ templates.forEach(function (template) {
 
 var compiled = handlebars.compile('{{> README }}');
 
-module.exports = exports = function render (data) {
+module.exports = exports = function render(data) {
   return compiled(data);
 };

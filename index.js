@@ -10,7 +10,7 @@ var render = require('./templates');
 
 var writeFile = Promise.promisify(fs.writeFile);
 
-module.exports = exports = function pj2md (options) {
+module.exports = exports = function pj2md(options) {
   options = options || {};
   options.badges = typeof options.badges === 'undefined' ? true : options.badges;
   options.api = typeof options.api === 'undefined' ? true : options.api;
@@ -42,7 +42,12 @@ module.exports = exports = function pj2md (options) {
       var moduleName = camelcase(pkg.name);
       var codestyle = null;
 
-      if (moduleDependsOn(pkg, 'semistandard')) {
+      if (moduleDependsOn(pkg, 'xo')) {
+        codestyle = {
+          name: 'xo',
+          repo: 'sindresorhus'
+        };
+      } else if (moduleDependsOn(pkg, 'semistandard')) {
         codestyle = {
           name: 'semistandard',
           repo: 'Flet'
@@ -98,7 +103,7 @@ module.exports = exports = function pj2md (options) {
     });
 };
 
-function binToCommands (name, bin) {
+function binToCommands(name, bin) {
   if (typeof bin === 'string') {
     return [{name: name, location: bin}];
   }
@@ -110,7 +115,7 @@ function binToCommands (name, bin) {
   return [];
 }
 
-function getMethodsFromModule (moduleName, modulePath) {
+function getMethodsFromModule(moduleName, modulePath) {
   var module;
   var methods = [];
   try {
@@ -129,7 +134,7 @@ function getMethodsFromModule (moduleName, modulePath) {
   return methods;
 }
 
-function getParamsForMethod (name, method) {
+function getParamsForMethod(name, method) {
   var params = functionParams(method);
   if (params.length !== method.length) {
     console.warn('Could not reliably get name of all parameters for: ' + name + '().\nWanted ' + method.length + ' parameters, got: "' + params.join('", "') + '"');
@@ -144,13 +149,13 @@ function getParamsForMethod (name, method) {
   return params;
 }
 
-function moduleDependsOn (pkg, dependency) {
+function moduleDependsOn(pkg, dependency) {
   return pkg.devDependencies[dependency] || pkg.dependencies[dependency] || pkg.peerDependencies[dependency];
 }
 
-function run (cmd) {
+function run(cmd) {
   return new Promise(function (resolve, reject) {
-    exec(cmd, {cwd: process.cwd()}, function (err, stdout, stderr) {
+    exec(cmd, {cwd: process.cwd()}, function (err, stdout) {
       if (err) {
         return reject(err);
       }

@@ -5,7 +5,7 @@
   "description": "Generate a README in markdown from a package.json file",
   "main": "index.js",
   "scripts": {
-    "test": "semistandard",
+    "test": "xo --space",
     "readme": "node bin/pj2md --no-module --no-api -o README.md -f"
   },
   "bin": {
@@ -37,6 +37,6 @@
     "yargs": "^3.14.0"
   },
   "devDependencies": {
-    "semistandard": "^7.0.2"
+    "xo": "^0.5.2"
   }
 }
