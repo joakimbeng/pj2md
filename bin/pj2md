@@ -12,37 +12,37 @@ var argv = yargs
   })
   .option('t', {
     alias: 'travis',
-    describe: 'Username for Travis account, if set a Travis build badge is included when adding badges to readme if .travis.yml exists',
+    describe: 'Username for Travis account, if set a Travis build badge is included when adding badges to readme if `.travis.yml` exists',
     type: 'string'
   })
   .option('s', {
     alias: 'codestyle',
     default: true,
-    describe: 'Add codestyle badge to readme if package.json depends on semistandard or standard',
+    describe: 'Add codestyle badge to readme if package.json depends on `semistandard` or `standard`',
     type: 'boolean'
   })
   .option('m', {
     alias: 'module',
     default: true,
-    describe: 'Add module usage information to readme if package.json has a main section',
+    describe: 'Add module usage information to readme if `package.json` has a "main" section',
     type: 'boolean'
   })
   .option('c', {
     alias: 'cli',
     default: true,
-    describe: 'Add cli usage information to readme if package.json has a bin section',
+    describe: 'Add cli usage information to readme if `package.json` has a "bin" section',
     type: 'boolean'
   })
   .option('a', {
     alias: 'api',
     default: true,
-    describe: 'Add API information to readme if package.json has a main section',
+    describe: 'Add API information to readme if `package.json` has a "main" section',
     type: 'boolean'
   })
   .option('l', {
     alias: 'license',
     default: true,
-    describe: 'Add license information to readme if package.json has a license section',
+    describe: 'Add license information to readme if `package.json` has a "license" section',
     type: 'boolean'
   })
   .option('o', {
