@@ -1,107 +1,103 @@
 'use strict';
-var fs = require('fs');
 var path = require('path');
-var exec = require('child_process').exec;
-var Promise = require('bluebird');
-var readJson = Promise.promisify(require('read-package-json'));
+var assign = require('object-assign');
+var pathExists = require('path-exists');
+var pify = require('pify');
+var exec = pify(require('child_process').exec);
+var parseAuthor = require('parse-author');
+var username = require('gh-repo-to-user');
+var lookUp = require('look-up');
 var camelcase = require('camelcase');
-var functionParams = require('function-params');
+var getApi = require('get-api');
 var render = require('./templates');
 
-var writeFile = Promise.promisify(fs.writeFile);
-
 module.exports = exports = function pj2md(options) {
-  options = options || {};
-  options.badges = typeof options.badges === 'undefined' ? true : options.badges;
-  options.api = typeof options.api === 'undefined' ? true : options.api;
-  options.module = typeof options.module === 'undefined' ? true : options.module;
-  options.codestyle = typeof options.codestyle === 'undefined' ? true : options.codestyle;
-  options.cli = typeof options.cli === 'undefined' ? true : options.cli;
-  options.license = typeof options.license === 'undefined' ? true : options.license;
+  options = assign({
+    cwd: process.cwd(),
+    badges: true,
+    api: true,
+    module: true,
+    codestyle: true,
+    cli: true,
+    license: true
+  }, options);
 
-  var packageJsonPath = path.resolve('package.json');
+  var packageJsonPath = lookUp('package.json', {cwd: options.cwd}) || path.resolve(options.cwd, 'package.json');
+  var travisYmlPath = lookUp('.travis.yml') || path.resolve(options.cwd, '.travis.yml');
 
-  if (!fs.existsSync(packageJsonPath)) {
-    console.error('No package.json found in current working directory!\nCan not continue...');
-    return process.exit(1);
+  var pkg;
+  try {
+    pkg = require(packageJsonPath);
+  } catch (e) {
+    return Promise.reject(new Error('No package.json found for current working directory!\nCan not continue...'));
   }
 
-  if (options.out && !options.force) {
-    if (fs.existsSync(path.resolve(options.out))) {
-      console.error(options.out + ' already exists, use --force option to continue.');
-      return process.exit(1);
-    }
+  if (!pathExists.sync(travisYmlPath)) {
+    options.travis = false;
   }
 
-  if (!fs.existsSync(path.resolve('.travis.yml'))) {
-    options.travis = null;
+  var moduleName = camelcase(pkg.name);
+
+  var context = {
+    pkg: pkg,
+    moduleName: moduleName,
+    badges: options.badges,
+    api: options.api && pkg.main,
+    module: options.module && pkg.main,
+    cli: options.cli && pkg.bin,
+    license: options.license && pkg.license,
+    author: typeof pkg.author === 'object' ? pkg.author : parseAuthor(pkg.author),
+    usage: options.module && pkg.main || options.cli && pkg.bin,
+    travis: options.travis && username(pkg.repository),
+    codestyle: options.codestyle && getCodeStyle(pkg),
+    commands: null,
+    methods: null
+  };
+
+  if (options.api && pkg.main) {
+    context.methods = getApi(require(path.resolve(path.dirname(packageJsonPath), pkg.main)), {main: moduleName}).methods;
   }
 
-  readJson(packageJsonPath)
-    .then(function (pkg) {
-      var moduleName = camelcase(pkg.name);
-      var codestyle = null;
+  var promise = Promise.resolve(context);
 
-      if (moduleDependsOn(pkg, 'xo')) {
-        codestyle = {
-          name: 'xo',
-          repo: 'sindresorhus'
-        };
-      } else if (moduleDependsOn(pkg, 'semistandard')) {
-        codestyle = {
-          name: 'semistandard',
-          repo: 'Flet'
-        };
-      } else if (moduleDependsOn(pkg, 'standard')) {
-        codestyle = {
-          name: 'standard',
-          repo: 'feross'
-        };
-      }
-
-      var context = {
-        pkg: pkg,
-        moduleName: moduleName,
-        badges: options.badges,
-        api: options.api && pkg.main,
-        module: options.module && pkg.main,
-        cli: options.cli && pkg.bin,
-        license: options.license,
-        usage: options.module && pkg.main || options.cli && pkg.bin,
-        travis: options.travis,
-        codestyle: options.codestyle && codestyle
-      };
-
-      if (options.api && pkg.main) {
-        context.methods = getMethodsFromModule(moduleName, path.resolve(pkg.main));
-      }
-
-      if (options.cli && pkg.bin) {
-        return Promise.all(binToCommands(pkg.name, pkg.bin).map(function (cmd) {
-          return run(cmd.location + ' --help')
-            .then(function (usage) {
-              return {name: cmd.name, usage: usage};
-            });
-        }))
-        .then(function (commands) {
-          context.commands = commands;
-          return context;
+  if (options.cli && pkg.bin) {
+    promise = Promise.all(binToCommands(pkg.name, pkg.bin).map(function (cmd) {
+      return exec(cmd.location + ' --help', options.cwd)
+        .then(function (usage) {
+          return {name: cmd.name, usage: usage.join('').trim()};
         });
-      }
+    }))
+    .then(function (commands) {
+      context.commands = commands;
       return context;
-    })
-    .then(function (context) {
-      var readme = render(context);
-      if (options.out) {
-        return writeFile(path.resolve(options.out), readme, 'utf8');
-      }
-      console.log(render(context));
-    })
-    .catch(function (err) {
-      console.error(err.message);
-      process.exit(1);
     });
+  }
+
+  return promise.then(render);
 };
+
+function getCodeStyle(pkg) {
+  var codestyle = null;
+
+  if (moduleDependsOn(pkg, 'xo')) {
+    codestyle = {
+      name: 'xo',
+      repo: 'sindresorhus'
+    };
+  } else if (moduleDependsOn(pkg, 'semistandard')) {
+    codestyle = {
+      name: 'semistandard',
+      repo: 'Flet'
+    };
+  } else if (moduleDependsOn(pkg, 'standard')) {
+    codestyle = {
+      name: 'standard',
+      repo: 'feross'
+    };
+  }
+
+  return codestyle;
+}
 
 function binToCommands(name, bin) {
   if (typeof bin === 'string') {
@@ -115,51 +111,6 @@ function binToCommands(name, bin) {
   return [];
 }
 
-function getMethodsFromModule(moduleName, modulePath) {
-  var module;
-  var methods = [];
-  try {
-    module = require(modulePath);
-  } catch (e) {
-    return methods;
-  }
-  if (typeof module === 'function') {
-    methods.push({name: moduleName, params: getParamsForMethod(moduleName, module)});
-  }
-  Object.keys(module).forEach(function (name) {
-    if (typeof module[name] === 'function') {
-      methods.push({name: moduleName + '.' + name, params: getParamsForMethod(moduleName + '.' + name, module[name])});
-    }
-  });
-  return methods;
-}
-
-function getParamsForMethod(name, method) {
-  var params = functionParams(method);
-  if (params.length !== method.length) {
-    console.warn('Could not reliably get name of all parameters for: ' + name + '().\nWanted ' + method.length + ' parameters, got: "' + params.join('", "') + '"');
-    if (params.length < method.length) {
-      for (var i = params.length; i < method.length; i++) {
-        params.push('param' + i);
-      }
-    } else if (params.length > method.length) {
-      params = params.slice(0, method.length);
-    }
-  }
-  return params;
-}
-
 function moduleDependsOn(pkg, dependency) {
   return pkg.devDependencies[dependency] || pkg.dependencies[dependency] || pkg.peerDependencies[dependency];
-}
-
-function run(cmd) {
-  return new Promise(function (resolve, reject) {
-    exec(cmd, {cwd: process.cwd()}, function (err, stdout) {
-      if (err) {
-        return reject(err);
-      }
-      return resolve(stdout.toString());
-    });
-  });
 }

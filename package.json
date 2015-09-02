@@ -4,6 +4,9 @@
   "preferGlobal": true,
   "description": "Generate a README in markdown from a package.json file",
   "main": "index.js",
+  "engines": {
+    "node": ">=0.12.0"
+  },
   "scripts": {
     "test": "xo",
     "readme": "node bin/pj2md --no-module --no-api -o README.md -f"
@@ -29,11 +32,15 @@
   },
   "homepage": "https://github.com/joakimbeng/pj2md#readme",
   "dependencies": {
-    "bluebird": "^2.9.30",
     "camelcase": "^1.1.0",
-    "function-params": "^0.1.0",
+    "get-api": "^1.0.1",
+    "gh-repo-to-user": "^1.1.0",
     "handlebars": "^3.0.3",
-    "read-package-json": "^2.0.0",
+    "look-up": "^0.7.1",
+    "object-assign": "^4.0.1",
+    "parse-author": "^0.2.0",
+    "path-exists": "^2.0.0",
+    "pify": "^1.1.0",
     "yargs": "^3.14.0"
   },
   "devDependencies": {

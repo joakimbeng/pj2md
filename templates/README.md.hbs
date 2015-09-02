@@ -25,7 +25,7 @@ npm install {{#if pkg.preferGlobal }}-g{{else}}--save{{/if}}{{#each pkg.peerDepe
 
 ## License
 
-{{pkg.license}}
+{{pkg.license}}{{#if author}} © {{#if author.url}}[{{/if}}{{author.name}}{{#if author.url}}]({{author.url}}){{/if}}{{/if}}
 {{/if}}
 {{#if badges}}
 

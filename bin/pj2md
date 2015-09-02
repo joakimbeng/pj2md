@@ -1,5 +1,9 @@
 #!/usr/bin/env node
+var path = require('path');
+var pify = require('pify');
+var writeFile = pify(require('fs').writeFile);
 var yargs = require('yargs');
+var pathExists = require('path-exists');
 var pj2md = require('../');
 
 var argv = yargs
@@ -12,8 +16,8 @@ var argv = yargs
   })
   .option('t', {
     alias: 'travis',
-    describe: 'Username for Travis account, if set a Travis build badge is included when adding badges to readme if `.travis.yml` exists',
-    type: 'string'
+    describe: 'Add Travis build badge to readme if `.travis.yml` exists and `package.json` has a "repository" field for a GitHub repo',
+    type: 'boolean'
   })
   .option('s', {
     alias: 'codestyle',
@@ -53,7 +57,6 @@ var argv = yargs
   .option('f', {
     alias: 'force',
     describe: 'Force overwrite output file if it already exists',
-    default: false,
     type: 'boolean'
   })
   .wrap(null)
@@ -62,4 +65,21 @@ var argv = yargs
   .alias('h', 'help')
   .argv;
 
-pj2md(argv);
+pj2md(argv)
+  .then(function (md) {
+    if (!argv.out) {
+      return console.log(md);
+    }
+    var outputFile = path.resolve(argv.out);
+    return pathExists(outputFile)
+      .then(function (yes) {
+        if (yes && !argv.force) {
+          throw new Error(argv.out + ' already exists, use --force option to continue.');
+        }
+        return writeFile(outputFile, md, 'utf8');
+      });
+  })
+  .catch(function (err) {
+    console.error(err.message);
+    process.exit(1);
+  });
