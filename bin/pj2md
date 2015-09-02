@@ -18,7 +18,7 @@ var argv = yargs
   .option('s', {
     alias: 'codestyle',
     default: true,
-    describe: 'Add codestyle badge to readme if package.json depends on `semistandard` or `standard`',
+    describe: 'Add codestyle badge to readme if package.json depends on `xo`, `semistandard` or `standard`',
     type: 'boolean'
   })
   .option('m', {
