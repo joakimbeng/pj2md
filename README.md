@@ -23,6 +23,7 @@ Usage: bin/pj2md [options]
 
 Options:
   -b, --badges     Add badges to readme, e.g. the npm badge  [boolean] [default: true]
+  --logo           Add the provided file as a logo, using http://rawgit.com/ url's  [string]
   -t, --travis     Add Travis build badge to readme if `.travis.yml` exists and `package.json` has a "repository" field for a GitHub repo  [boolean]
   -s, --codestyle  Add codestyle badge to readme if package.json depends on `xo`, `semistandard` or `standard`  [boolean] [default: true]
   -m, --module     Add module usage information to readme if `package.json` has a "main" section  [boolean] [default: true]
@@ -34,7 +35,8 @@ Options:
   -h, --help       Show help  [boolean]
 
 Examples:
-  bin/pj2md --no-api -f -o README.md  Generate (and overwrite) README.md without API information from current package.json file
+  bin/pj2md --no-api -f -o README.md              Generate (and overwrite) README.md without API information from current package.json file
+  bin/pj2md --logo media/project.svg > README.md  Generate a readme with `media/project.svg` as logo to stdout, which is then saved as README.md
 ```
 
 

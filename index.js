@@ -37,6 +37,7 @@ module.exports = exports = function pj2md(options) {
   }
 
   var moduleName = camelcase(pkg.name);
+  var user = username(pkg.repository);
 
   var context = {
     pkg: pkg,
@@ -48,7 +49,9 @@ module.exports = exports = function pj2md(options) {
     license: options.license && pkg.license,
     author: typeof pkg.author === 'object' ? pkg.author : parseAuthor(pkg.author),
     usage: options.module && pkg.main || options.cli && pkg.bin,
-    travis: options.travis && username(pkg.repository),
+    user: user,
+    logo: user && options.logo,
+    travis: options.travis && user,
     codestyle: options.codestyle && getCodeStyle(pkg),
     commands: null,
     methods: null
