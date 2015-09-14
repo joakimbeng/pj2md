@@ -1,9 +1,8 @@
 'use strict';
 var path = require('path');
 var assign = require('object-assign');
-var pathExists = require('path-exists');
 var pify = require('pify');
-var exec = pify(require('child_process').exec);
+var exec = pify(require('child_process').execFile);
 var parseAuthor = require('parse-author');
 var username = require('gh-repo-to-user');
 var findUp = require('find-up');
@@ -30,6 +29,7 @@ module.exports = exports = function pj2md(options) {
     travis: true
   }, options);
 
+  var hasTravisYml = findUp('.travis.yml', {cwd: options.cwd});
   var readPkg = readPackage(options.cwd);
   var pkg = get('pkg', readPkg);
   var moduleName = call(camelcase, get('name', pkg));
@@ -50,7 +50,7 @@ module.exports = exports = function pj2md(options) {
     usage: or(isModule, isCli),
     user: user,
     logo: and(user, options.logo),
-    travis: and(options.travis, hasTravisYml(options.cwd), user),
+    travis: and(options.travis, hasTravisYml, user),
     codestyle: and(options.codestyle, getCodeStyle(pkg)),
     commands: and(isCli, getCliCommands(get('bin', pkg), options)),
     methods: and(showApi, getApiMethods(readPkg, moduleName))
@@ -96,7 +96,7 @@ function getCliCommands(binPromise, options) {
 }
 
 function getCommandHelp(cmd, options) {
-  return exec(cmd.location + ' --help', options.cwd)
+  return exec(cmd.location, ['--help'], {cwd: options.cwd})
     .then(function (usage) {
       return {name: cmd.name, usage: usage.join('').trim()};
     });
@@ -119,16 +119,6 @@ function getAuthorObject(authorPromise) {
   return authorPromise.then(function (author) {
     return typeof author === 'object' ? author : parseAuthor(author);
   });
-}
-
-function hasTravisYml(cwd) {
-  return findUp('.travis.yml', {cwd: cwd})
-    .then(function (travisYmlPath) {
-      if (travisYmlPath) {
-        return pathExists(travisYmlPath);
-      }
-      return false;
-    });
 }
 
 function readPackage(cwd) {
