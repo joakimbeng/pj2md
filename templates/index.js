@@ -2,6 +2,7 @@
 var fs = require('fs');
 var path = require('path');
 var handlebars = require('handlebars');
+var all = require('promise-all');
 
 // We do this sync because it's on upstart:
 
@@ -24,5 +25,5 @@ templates.forEach(function (template) {
 var compiled = handlebars.compile('{{> README }}');
 
 module.exports = exports = function render(data) {
-  return compiled(data);
+  return all(data).then(compiled);
 };
