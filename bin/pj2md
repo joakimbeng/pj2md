@@ -67,7 +67,11 @@ var argv = yargs
   .example('$0 --no-api -f -o README.md', 'Generate (and overwrite) README.md without API information from current package.json file')
   .example('$0 --logo media/project.svg > README.md', 'Generate a readme with `media/project.svg` as logo to stdout, which is then saved as README.md')
   .help('h')
+  .version(function () {
+    return require('../package').version;
+  })
   .alias('h', 'help')
+  .alias('v', 'version')
   .argv;
 
 pj2md(argv)
