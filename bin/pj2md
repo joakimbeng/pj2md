@@ -20,6 +20,7 @@ var argv = yargs
   })
   .option('t', {
     alias: 'travis',
+    default: true,
     describe: 'Add Travis build badge to readme if `.travis.yml` exists and `package.json` has a "repository" field for a GitHub repo',
     type: 'boolean'
   })
