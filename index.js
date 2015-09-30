@@ -63,7 +63,7 @@ function getCodeStyle(pkgPromise) {
   return pkgPromise.then(function (pkg) {
     var codestyle = null;
 
-    if (moduleDependsOn(pkg, 'xo')) {
+    if (moduleDependsOn(pkg, 'xo') || moduleDependsOn(pkg, 'eslint-config-xo')) {
       codestyle = {
         name: 'xo',
         repo: 'sindresorhus'
@@ -141,5 +141,7 @@ function binToCommands(bin) {
 }
 
 function moduleDependsOn(pkg, dependency) {
-  return pkg.devDependencies[dependency] || pkg.dependencies[dependency] || pkg.peerDependencies[dependency];
+  return pkg.devDependencies && pkg.devDependencies[dependency] ||
+         pkg.dependencies && pkg.dependencies[dependency] ||
+         pkg.peerDependencies && pkg.peerDependencies[dependency];
 }
