@@ -5,7 +5,7 @@
 {{/if}}
 {{#if badges}}
 
-{{#if travis}}[![Build status][travis-image]][travis-url] {{/if}}[![NPM version][npm-image]][npm-url]{{#if codestyle}} [![js-{{codestyle.name}}-style][codestyle-image]][codestyle-url]{{/if}}
+{{#if travis}}[![Build status][travis-image]][travis-url] {{/if}}[![NPM version][npm-image]][npm-url]{{#if codestyle}} [![{{codestyle.name}} code style][codestyle-image]][codestyle-url]{{/if}}
 {{/if}}
 
 > {{{pkg.description}}}
@@ -38,5 +38,5 @@ npm install {{#if pkg.preferGlobal }}-g{{else}}--save{{/if}}{{#each pkg.peerDepe
 [travis-url]: https://travis-ci.org/{{user}}/{{pkg.name}}
 [travis-image]: https://travis-ci.org/{{user}}/{{pkg.name}}.svg?branch=master{{/if}}{{#if codestyle}}
 [codestyle-url]: https://github.com/{{codestyle.repo}}/{{codestyle.name}}
-[codestyle-image]: https://img.shields.io/badge/code%20style-{{codestyle.name}}-brightgreen.svg?style=flat{{/if}}
+[codestyle-image]: https://img.shields.io/badge/code%20style-{{codestyle.name}}-{{codestyle.color}}.svg?style=flat{{/if}}
 {{/if}}

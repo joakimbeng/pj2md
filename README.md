@@ -1,6 +1,6 @@
 # pj2md
 
-[![NPM version][npm-image]][npm-url] [![js-xo-style][codestyle-image]][codestyle-url]
+[![NPM version][npm-image]][npm-url] [![XO code style][codestyle-image]][codestyle-url]
 
 > Generate a README in markdown from a package.json file
 
@@ -47,5 +47,5 @@ MIT © Joakim Carlstein
 
 [npm-url]: https://npmjs.org/package/pj2md
 [npm-image]: https://badge.fury.io/js/pj2md.svg
-[codestyle-url]: https://github.com/sindresorhus/xo
-[codestyle-image]: https://img.shields.io/badge/code%20style-xo-brightgreen.svg?style=flat
+[codestyle-url]: https://github.com/sindresorhus/XO
+[codestyle-image]: https://img.shields.io/badge/code%20style-XO-5ed9c7.svg?style=flat

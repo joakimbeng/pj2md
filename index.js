@@ -65,18 +65,21 @@ function getCodeStyle(pkgPromise) {
 
     if (moduleDependsOn(pkg, 'xo') || moduleDependsOn(pkg, 'eslint-config-xo')) {
       codestyle = {
-        name: 'xo',
-        repo: 'sindresorhus'
+        name: 'XO',
+        repo: 'sindresorhus',
+        color: '5ed9c7'
       };
     } else if (moduleDependsOn(pkg, 'semistandard')) {
       codestyle = {
         name: 'semistandard',
-        repo: 'Flet'
+        repo: 'Flet',
+        color: 'brightgreen'
       };
     } else if (moduleDependsOn(pkg, 'standard')) {
       codestyle = {
         name: 'standard',
-        repo: 'feross'
+        repo: 'feross',
+        color: 'brightgreen'
       };
     }
 
