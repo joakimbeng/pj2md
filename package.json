@@ -32,8 +32,8 @@
   },
   "homepage": "https://github.com/joakimbeng/pj2md#readme",
   "dependencies": {
-    "camelcase": "^1.1.0",
-    "find-up": "^1.0.0",
+    "camelcase": "^1.2.1",
+    "find-up": "^1.1.0",
     "get-api": "^1.0.1",
     "gh-repo-to-user": "^1.1.0",
     "handlebars": "^3.0.3",
@@ -44,16 +44,19 @@
     "pify": "^1.1.0",
     "promise-all": "^1.0.0",
     "promise-and": "^1.0.0",
-    "promise-fncall": "^1.0.0",
+    "promise-fncall": "^1.1.1",
     "promise-get": "^1.0.0",
     "promise-or": "^1.0.0",
     "read-pkg-up": "^1.0.1",
-    "yargs": "^3.14.0"
+    "yargs": "^3.32.0"
   },
   "devDependencies": {
-    "xo": "^0.5.2"
+    "xo": "^0.12.1"
   },
   "xo": {
-    "space": true
+    "space": true,
+    "envs": [
+      "node"
+    ]
   }
 }
