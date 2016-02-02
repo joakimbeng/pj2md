@@ -52,7 +52,7 @@ Generate a README in markdown from a package.json file
 
 ## License
 
-MIT © Joakim Carlstein
+MIT © [Joakim Carlstein](http://joakim.beng.se)
 
 [npm-url]: https://npmjs.org/package/pj2md
 [npm-image]: https://badge.fury.io/js/pj2md.svg
