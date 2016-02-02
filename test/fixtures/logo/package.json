@@ -1,0 +1,8 @@
+{
+  "name": "logo",
+  "description": "A module with a logo",
+  "repository": "joakimbeng/logo",
+  "pj2md": {
+    "logo": "logo.png"
+  }
+}

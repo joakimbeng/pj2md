@@ -1,0 +1,7 @@
+{
+  "name": "nothing-no-badges",
+  "description": "A module with nothing in it and no badges either",
+  "pj2md": {
+    "badges": false
+  }
+}

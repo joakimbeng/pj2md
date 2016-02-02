@@ -1,0 +1,7 @@
+{
+  "name": "logo-no-repo",
+  "description": "A module with a logo but no repo",
+  "pj2md": {
+    "logo": "logo.png"
+  }
+}

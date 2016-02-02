@@ -1,0 +1,10 @@
+{
+  "name": "codestyle-no-badge",
+  "description": "A module that follows the XO code style but without badge",
+  "devDependencies": {
+    "xo": "*"
+  },
+  "pj2md": {
+    "codestyle": false
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "main-no-module-no-api",
+  "description": "A module with main but no module nor api info",
+  "main": "./index.js",
+  "pj2md": {
+    "module": false,
+    "api": false
+  }
+}

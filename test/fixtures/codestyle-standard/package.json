@@ -1,0 +1,7 @@
+{
+  "name": "codestyle-standard",
+  "description": "A module that follows the Standard code style",
+  "devDependencies": {
+    "standard": "*"
+  }
+}

@@ -8,7 +8,7 @@
     "node": ">=4"
   },
   "scripts": {
-    "test": "xo",
+    "test": "xo && ava",
     "readme": "node bin/pj2md -o README.md -f"
   },
   "bin": {
@@ -52,6 +52,7 @@
     "read-pkg-up": "^1.0.1"
   },
   "devDependencies": {
+    "ava": "^0.11.0",
     "xo": "^0.12.1"
   },
   "xo": {

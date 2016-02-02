@@ -1,0 +1,5 @@
+{
+  "name": "main-with-api",
+  "description": "A module with main and api",
+  "main": "./index.js"
+}

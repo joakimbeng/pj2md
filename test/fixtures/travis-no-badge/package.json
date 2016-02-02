@@ -1,0 +1,8 @@
+{
+  "name": "travis-no-badge",
+  "description": "A module with a travis file and repo but no badge",
+  "repository": "joakimbeng/travis-no-repo",
+  "pj2md": {
+    "travis": false
+  }
+}

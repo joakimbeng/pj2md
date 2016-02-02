@@ -1,0 +1,7 @@
+{
+  "name": "peer-dependency",
+  "description": "A module with a peer dependency",
+  "peerDependencies": {
+    "react": "*"
+  }
+}

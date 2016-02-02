@@ -1,0 +1,8 @@
+{
+  "name": "cli-no-usage",
+  "description": "A module with bin but no usage info",
+  "bin": "./index.js",
+  "pj2md": {
+    "cli": false
+  }
+}

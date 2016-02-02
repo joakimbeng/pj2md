@@ -1,0 +1,5 @@
+{
+  "name": "travis-with-repo",
+  "description": "A module with a travis file and repo",
+  "repository": "joakimbeng/travis-with-repo"
+}

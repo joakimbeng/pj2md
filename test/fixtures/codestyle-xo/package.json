@@ -1,0 +1,7 @@
+{
+  "name": "codestyle-xo",
+  "description": "A module that follows the XO code style",
+  "devDependencies": {
+    "xo": "*"
+  }
+}

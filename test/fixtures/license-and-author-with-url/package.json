@@ -1,0 +1,6 @@
+{
+  "name": "license-and-author-with-url",
+  "description": "A module with license and author with url",
+  "author": "Joakim Carlstein (http://joakim.beng.se)",
+  "license": "MIT"
+}

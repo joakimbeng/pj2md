@@ -1,0 +1,8 @@
+{
+  "name": "cli-multiple",
+  "description": "A module with multiple bins",
+  "bin": {
+    "first": "./index.js",
+    "second": "./index.js"
+  }
+}

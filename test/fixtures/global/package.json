@@ -1,0 +1,5 @@
+{
+  "name": "global",
+  "preferGlobal": true,
+  "description": "A module to install globally"
+}

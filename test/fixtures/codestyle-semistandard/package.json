@@ -1,0 +1,7 @@
+{
+  "name": "codestyle-semistandard",
+  "description": "A module that follows the Semistandard code style",
+  "devDependencies": {
+    "semistandard": "*"
+  }
+}

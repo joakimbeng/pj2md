@@ -1,0 +1,5 @@
+{
+  "name": "cli",
+  "description": "A module with bin",
+  "bin": "./index.js"
+}

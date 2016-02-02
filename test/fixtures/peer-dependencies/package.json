@@ -1,0 +1,8 @@
+{
+  "name": "peer-dependencies",
+  "description": "A module with multiple peer dependencies",
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*"
+  }
+}
