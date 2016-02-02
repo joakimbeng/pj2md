@@ -1,6 +1,6 @@
 # pj2md
 
-[![NPM version][npm-image]][npm-url] [![XO code style][codestyle-image]][codestyle-url]
+[![Build status][travis-image]][travis-url] [![NPM version][npm-image]][npm-url] [![XO code style][codestyle-image]][codestyle-url]
 
 > Generate a README in markdown from a package.json file
 
@@ -19,25 +19,34 @@ npm install -g pj2md
 ```bash
 $> pj2md --help
 
-Usage: bin/pj2md [options]
+Generate a README in markdown from a package.json file
 
-Options:
-  -b, --badges     Add badges to readme, e.g. the npm badge  [boolean] [default: true]
-  --logo           Add the provided file as a logo, using http://rawgit.com/ url's  [string]
-  -t, --travis     Add Travis build badge to readme if `.travis.yml` exists and `package.json` has a "repository" field for a GitHub repo  [boolean] [default: true]
-  -s, --codestyle  Add codestyle badge to readme if package.json depends on `xo`, `semistandard` or `standard`  [boolean] [default: true]
-  -m, --module     Add module usage information to readme if `package.json` has a "main" section  [boolean] [default: true]
-  -c, --cli        Add cli usage information to readme if `package.json` has a "bin" section  [boolean] [default: true]
-  -a, --api        Add API information to readme if `package.json` has a "main" section  [boolean] [default: true]
-  -l, --license    Add license information to readme if `package.json` has a "license" section  [boolean] [default: true]
-  -o, --out        Output file  [string]
-  -f, --force      Force overwrite output file if it already exists  [boolean]
-  -h, --help       Show help  [boolean]
-  -v, --version    Show version number  [boolean]
+  Usage:
+    pj2md [options]
 
-Examples:
-  bin/pj2md --no-api -f -o README.md              Generate (and overwrite) README.md without API information from current package.json file
-  bin/pj2md --logo media/project.svg > README.md  Generate a readme with `media/project.svg` as logo to stdout, which is then saved as README.md
+  Options:
+    -o, --out=<file>  Output to file instead of stdout
+    -f, --force       Overwrite any existing output file
+    -l, --logo=<path> Add the provided file as a logo, using http://rawgit.com/ url's (1)
+    --no-badges       Don't add any badges to readme
+    --no-travis       Don't add a Travis build badge (2)
+    --no-codestyle    Don't add a code style badge (3)
+    --no-module       Don't add module usage information (4)
+    --no-api          Don't add API information (4)
+    --no-cli          Don't add CLI usage information (5)
+    --no-license      Don't add license information to readme
+    -v, --version     Show version number
+    -h, --help        Show help
+
+      1) only applicable when package has a 'repository' section
+      2) only applicable when there's a '.travis.yml' file in project
+      3) only applicable when package depends on XO, semistandard or standard
+      4) only applicable when package has a 'main' section
+      5) only applicable when package has a 'bin' section
+
+  Examples:
+    pj2md --no-api -f -o README.md    Generate (and overwrite) README.md without API information from current package.json file
+    pj2md --logo media/project.svg > README.md   Generate a readme with 'media/project.svg' as logo to stdout, which is then saved as README.md
 ```
 
 
@@ -47,5 +56,7 @@ MIT © Joakim Carlstein
 
 [npm-url]: https://npmjs.org/package/pj2md
 [npm-image]: https://badge.fury.io/js/pj2md.svg
-[codestyle-url]: https://github.com/sindresorhus/XO
+[travis-url]: https://travis-ci.org/joakimbeng/pj2md
+[travis-image]: https://travis-ci.org/joakimbeng/pj2md.svg?branch=master
+[codestyle-url]: https://github.com/sindresorhus/xo
 [codestyle-image]: https://img.shields.io/badge/code%20style-XO-5ed9c7.svg?style=flat
