@@ -28,9 +28,10 @@ module.exports = exports = function pj2md(options) {
   }, options);
 
   const badges = options.badges;
-  const hasTravisYml = pathExists(path.join(options.cwd, '.travis.yml'));
   const readPkg = readPackage(options.cwd);
   const pkg = get('pkg', readPkg);
+  const pkgPath = call(path.dirname, get('path', readPkg));
+  const hasTravisYml = call(path.resolve, pkgPath, '.travis.yml').then(pathExists);
   const moduleName = call(camelcase, get('name', pkg));
   const user = call(username, get('repository', pkg));
   const module = and(options.module, get('main', pkg));
@@ -52,8 +53,8 @@ module.exports = exports = function pj2md(options) {
     logo: and(user, options.logo),
     travis: and(options.travis, hasTravisYml, user),
     codestyle: and(options.codestyle, getCodeStyle(pkg)),
-    commands: and(cli, getCliCommands(get('bin', pkg), options)),
-    methods: and(api, getApiMethods(readPkg, moduleName))
+    commands: and(cli, getCliCommands(pkgPath, cli)),
+    methods: and(api, getApiMethods(pkgPath, module, moduleName))
   };
 
   return render(context);
@@ -84,30 +85,31 @@ function getCodeStyle(pkgPromise) {
   });
 }
 
-function getCliCommands(binPromise, options) {
+function getCliCommands(pkgPath, bin) {
   return new LazyPromise((resolve, reject) => {
-    binPromise.then(bin => all(
-      binToCommands(bin)
-        .map(cmd =>
-          getCommandHelp(cmd, options)
-        )
-    ))
-    .then(resolve, reject);
+    all({pkgPath, bin})
+      .then(res => all(
+        binToCommands(res.bin)
+          .map(cmd =>
+            getCommandHelp(res.pkgPath, cmd)
+          )
+      ))
+      .then(resolve, reject);
   });
 }
 
-function getCommandHelp(cmd, options) {
-  return exec(cmd.location, ['--help'], {cwd: options.cwd})
+function getCommandHelp(pkgPath, cmd) {
+  return exec(cmd.location, ['--help'], {cwd: pkgPath})
     .then(usage => ({
       name: cmd.name,
       usage: usage.trim()
     }));
 }
 
-function getApiMethods(readPkgPromise, moduleName) {
+function getApiMethods(pkgPath, mainModule, moduleName) {
   return new LazyPromise((resolve, reject) => {
     all({
-      modulePath: call(path.resolve, call(path.dirname, get('path', readPkgPromise)), get('pkg.main', readPkgPromise)),
+      modulePath: call(path.resolve, pkgPath, mainModule),
       moduleName
     })
     .then(result => getApi(require(result.modulePath), {main: result.moduleName}).methods)

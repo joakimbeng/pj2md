@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "xo && ava",
-    "readme": "node bin/pj2md -o README.md -f"
+    "readme": "node bin/pj2md -o README.md -f",
+    "postreadme": "cp -f README.md test/fixtures/subfolder/"
   },
   "bin": {
     "pj2md": "bin/pj2md"
