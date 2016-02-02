@@ -1,8 +1,8 @@
 'use strict';
 const path = require('path');
+const pathExists = require('path-exists');
 const parseAuthor = require('parse-author');
 const username = require('gh-repo-to-user');
-const findUp = require('find-up');
 const readPkgUp = require('read-pkg-up');
 const camelcase = require('camelcase');
 const getApi = require('get-api');
@@ -28,7 +28,7 @@ module.exports = exports = function pj2md(options) {
   }, options);
 
   const badges = options.badges;
-  const hasTravisYml = findUp('.travis.yml', {cwd: options.cwd});
+  const hasTravisYml = pathExists(path.join(options.cwd, '.travis.yml'));
   const readPkg = readPackage(options.cwd);
   const pkg = get('pkg', readPkg);
   const moduleName = call(camelcase, get('name', pkg));
@@ -100,7 +100,7 @@ function getCommandHelp(cmd, options) {
   return exec(cmd.location, ['--help'], {cwd: options.cwd})
     .then(usage => ({
       name: cmd.name,
-      usage: usage.join('').trim()
+      usage: usage.trim()
     }));
 }
 
