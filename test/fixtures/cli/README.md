@@ -16,7 +16,7 @@ npm install --save cli
 
 ### CLI usage
 
-```bash
+```
 $> cli --help
 
 Usage...

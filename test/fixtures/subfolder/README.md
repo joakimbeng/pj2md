@@ -16,7 +16,7 @@ npm install -g pj2md
 
 ### CLI usage
 
-```bash
+```
 $> pj2md --help
 
 Generate a README in markdown from a package.json file

@@ -16,13 +16,13 @@ npm install --save cli-multiple
 
 ### CLI usage
 
-```bash
+```
 $> first --help
 
 Usage...
 ```
 
-```bash
+```
 $> second --help
 
 Usage...
