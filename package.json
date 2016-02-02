@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "xo",
-    "readme": "node bin/pj2md --no-module --no-api -o README.md -f"
+    "readme": "node bin/pj2md -o README.md -f"
   },
   "bin": {
     "pj2md": "bin/pj2md"
@@ -60,5 +60,9 @@
     "envs": [
       "node"
     ]
+  },
+  "pj2md": {
+    "module": false,
+    "api": false
   }
 }
