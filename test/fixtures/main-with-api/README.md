@@ -17,7 +17,7 @@ npm install --save main-with-api
 ### Module usage
 
 ```javascript
-var mainWithApi = require('main-with-api');
+const mainWithApi = require('main-with-api');
 
 // ...
 ```

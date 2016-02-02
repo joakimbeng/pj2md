@@ -17,7 +17,7 @@ npm install --save main-no-api
 ### Module usage
 
 ```javascript
-var mainNoApi = require('main-no-api');
+const mainNoApi = require('main-no-api');
 
 // ...
 ```
