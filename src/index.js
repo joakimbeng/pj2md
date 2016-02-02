@@ -1,24 +1,22 @@
 'use strict';
-var path = require('path');
-var assign = require('object-assign');
-var pify = require('pify');
-var exec = pify(require('child_process').execFile);
-var parseAuthor = require('parse-author');
-var username = require('gh-repo-to-user');
-var findUp = require('find-up');
-var readPkgUp = require('read-pkg-up');
-var camelcase = require('camelcase');
-var getApi = require('get-api');
-var or = require('promise-or');
-var and = require('promise-and');
-var all = require('promise-all');
-var get = require('promise-get');
-var call = require('promise-fncall');
-var LazyPromise = require('lazy-promise');
-var render = require('./templates');
+const path = require('path');
+const parseAuthor = require('parse-author');
+const username = require('gh-repo-to-user');
+const findUp = require('find-up');
+const readPkgUp = require('read-pkg-up');
+const camelcase = require('camelcase');
+const getApi = require('get-api');
+const or = require('promise-or');
+const and = require('promise-and');
+const all = require('promise-all');
+const get = require('promise-get');
+const call = require('promise-fncall');
+const LazyPromise = require('lazy-promise');
+const render = require('../templates');
+const exec = require('./exec');
 
 module.exports = exports = function pj2md(options) {
-  options = assign({
+  options = Object.assign({
     cwd: process.cwd(),
     badges: true,
     api: true,
@@ -29,104 +27,105 @@ module.exports = exports = function pj2md(options) {
     travis: true
   }, options);
 
-  var hasTravisYml = findUp('.travis.yml', {cwd: options.cwd});
-  var readPkg = readPackage(options.cwd);
-  var pkg = get('pkg', readPkg);
-  var moduleName = call(camelcase, get('name', pkg));
-  var user = call(username, get('repository', pkg));
-  var isModule = and(options.module, get('main', pkg));
-  var isCli = and(options.cli, get('bin', pkg));
-  var showApi = and(options.api, get('main', pkg));
+  const badges = options.badges;
+  const hasTravisYml = findUp('.travis.yml', {cwd: options.cwd});
+  const readPkg = readPackage(options.cwd);
+  const pkg = get('pkg', readPkg);
+  const moduleName = call(camelcase, get('name', pkg));
+  const user = call(username, get('repository', pkg));
+  const module = and(options.module, get('main', pkg));
+  const cli = and(options.cli, get('bin', pkg));
+  const api = and(options.api, get('main', pkg));
+  const license = and(options.license, get('license', pkg));
 
-  var context = {
-    pkg: pkg,
-    moduleName: moduleName,
-    badges: options.badges,
-    api: showApi,
-    module: isModule,
-    cli: isCli,
-    license: and(options.license, get('license', pkg)),
+  const context = {
+    badges,
+    pkg,
+    moduleName,
+    user,
+    api,
+    module,
+    cli,
+    license,
     author: getAuthorObject(get('author', pkg)),
-    usage: or(isModule, isCli),
-    user: user,
+    usage: or(module, cli),
     logo: and(user, options.logo),
     travis: and(options.travis, hasTravisYml, user),
     codestyle: and(options.codestyle, getCodeStyle(pkg)),
-    commands: and(isCli, getCliCommands(get('bin', pkg), options)),
-    methods: and(showApi, getApiMethods(readPkg, moduleName))
+    commands: and(cli, getCliCommands(get('bin', pkg), options)),
+    methods: and(api, getApiMethods(readPkg, moduleName))
   };
 
   return render(context);
 };
 
 function getCodeStyle(pkgPromise) {
-  return pkgPromise.then(function (pkg) {
-    var codestyle = null;
-
+  return pkgPromise.then(pkg => {
     if (moduleDependsOn(pkg, 'xo') || moduleDependsOn(pkg, 'eslint-config-xo')) {
-      codestyle = {
+      return {
         name: 'XO',
-        repo: 'sindresorhus',
+        repo: 'sindresorhus/xo',
         color: '5ed9c7'
       };
     } else if (moduleDependsOn(pkg, 'semistandard')) {
-      codestyle = {
+      return {
         name: 'semistandard',
-        repo: 'Flet',
+        repo: 'Flet/semistandard',
         color: 'brightgreen'
       };
     } else if (moduleDependsOn(pkg, 'standard')) {
-      codestyle = {
+      return {
         name: 'standard',
-        repo: 'feross',
+        repo: 'feross/standard',
         color: 'brightgreen'
       };
     }
-
-    return codestyle;
+    return null;
   });
 }
 
 function getCliCommands(binPromise, options) {
-  return new LazyPromise(function (resolve, reject) {
-    binPromise.then(function (bin) {
-      return all(binToCommands(bin).map(function (cmd) {
-        return getCommandHelp(cmd, options);
-      }));
-    })
+  return new LazyPromise((resolve, reject) => {
+    binPromise.then(bin => all(
+      binToCommands(bin)
+        .map(cmd =>
+          getCommandHelp(cmd, options)
+        )
+    ))
     .then(resolve, reject);
   });
 }
 
 function getCommandHelp(cmd, options) {
   return exec(cmd.location, ['--help'], {cwd: options.cwd})
-    .then(function (usage) {
-      return {name: cmd.name, usage: usage.join('').trim()};
-    });
+    .then(usage => ({
+      name: cmd.name,
+      usage: usage.join('').trim()
+    }));
 }
 
 function getApiMethods(readPkgPromise, moduleName) {
-  return new LazyPromise(function (resolve, reject) {
+  return new LazyPromise((resolve, reject) => {
     all({
       modulePath: call(path.resolve, call(path.dirname, get('path', readPkgPromise)), get('pkg.main', readPkgPromise)),
-      moduleName: moduleName
+      moduleName
     })
-    .then(function (result) {
-      return getApi(require(result.modulePath), {main: result.moduleName}).methods;
-    })
+    .then(result => getApi(require(result.modulePath), {main: result.moduleName}).methods)
     .then(resolve, reject);
   });
 }
 
 function getAuthorObject(authorPromise) {
-  return authorPromise.then(function (author) {
-    return typeof author === 'object' ? author : parseAuthor(author);
-  });
+  return authorPromise.then(author =>
+    typeof author === 'string' ?
+    parseAuthor(author) :
+    author
+  );
 }
 
 function readPackage(cwd) {
-  return readPkgUp({cwd: cwd})
-    .then(function (pkg) {
+  return readPkgUp({cwd})
+    .then(pkg => {
       if (!pkg.pkg) {
         throw new Error('No package.json found for current working directory!\nCan not continue...');
       }
@@ -136,9 +135,10 @@ function readPackage(cwd) {
 
 function binToCommands(bin) {
   if (typeof bin === 'object') {
-    return Object.keys(bin).map(function (name) {
-      return {name: name, location: bin[name]};
-    });
+    return Object.keys(bin).map(name => ({
+      name,
+      location: bin[name]
+    }));
   }
   return [];
 }

@@ -5,7 +5,7 @@
   "description": "Generate a README in markdown from a package.json file",
   "main": "src/index.js",
   "engines": {
-    "node": ">=0.12.0"
+    "node": ">=4"
   },
   "scripts": {
     "test": "xo",
@@ -38,22 +38,24 @@
     "gh-repo-to-user": "^1.1.0",
     "handlebars": "^3.0.3",
     "lazy-promise": "^3.0.1",
+    "meow": "^3.7.0",
     "object-assign": "^4.0.1",
     "parse-author": "^0.2.0",
     "path-exists": "^2.0.0",
     "pify": "^1.1.0",
+    "pkg-conf": "^1.1.1",
     "promise-all": "^1.0.0",
     "promise-and": "^1.0.0",
     "promise-fncall": "^1.1.1",
     "promise-get": "^1.0.0",
     "promise-or": "^1.0.0",
-    "read-pkg-up": "^1.0.1",
-    "yargs": "^3.32.0"
+    "read-pkg-up": "^1.0.1"
   },
   "devDependencies": {
     "xo": "^0.12.1"
   },
   "xo": {
+    "esnext": true,
     "space": true,
     "envs": [
       "node"
