@@ -24,6 +24,8 @@ const cli = meow(`
     --no-api          Don't add API information (3)
     --no-cli          Don't add CLI usage information (4)
     --no-license      Don't add license information to readme
+    -v, --version     Show version number
+    -h, --help        Show help
 
       1) only applicable when there's a '.travis.yml' file in project
       2) only applicable when package depends on XO, semistandard or standard
@@ -40,6 +42,8 @@ const cli = meow(`
     'logo'
   ],
   alias: {
+    h: 'help',
+    v: 'version',
     f: 'force',
     o: 'out',
     l: 'logo'
