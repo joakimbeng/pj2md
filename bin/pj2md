@@ -4,7 +4,7 @@ var pify = require('pify');
 var writeFile = pify(require('fs').writeFile);
 var yargs = require('yargs');
 var pathExists = require('path-exists');
-var pj2md = require('../');
+var pj2md = require('../src');
 
 var argv = yargs
   .usage('Usage: $0 [options]')
