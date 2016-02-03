@@ -69,6 +69,7 @@
   },
   "pj2md": {
     "module": false,
-    "api": false
+    "api": false,
+    "postusage": "_configuration.md"
   }
 }
