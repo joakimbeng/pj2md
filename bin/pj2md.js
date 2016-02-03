@@ -8,6 +8,14 @@ const pkgConf = require('pkg-conf');
 const pj2md = require('../src');
 
 const config = pkgConf.sync('pj2md');
+const pkgPath = pkgConf.filepath(config);
+
+// Make config hooks relative to `package.json` instead of cwd:
+Object.keys(config).forEach(name => {
+  if (name.indexOf('pre') === 0 || name.indexOf('post') === 0) {
+    config[name] = path.resolve(path.dirname(pkgPath), config[name]);
+  }
+});
 
 const cli = meow(`
   Usage:

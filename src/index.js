@@ -42,7 +42,7 @@ module.exports = exports = function pj2md(options) {
   const cli = and(options.cli, get('bin', pkg));
   const api = and(options.api, get('main', pkg));
   const license = and(options.license, get('license', pkg));
-  const render = templates(pkgPath, options);
+  const render = templates(options);
 
   const context = {
     badges,

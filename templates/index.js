@@ -3,7 +3,6 @@ const fs = require('fs');
 const path = require('path');
 const pify = require('pify');
 const LazyPromise = require('lazy-promise');
-const pathExists = require('path-exists');
 const handlebars = require('handlebars');
 const and = require('promise-and');
 const all = require('promise-all');
@@ -15,15 +14,15 @@ const call = require('promise-fncall');
 const readdir = pify(fs.readdir);
 const readfile = pify(fs.readFile);
 
-module.exports = exports = function load(pkgPath, options) {
+module.exports = exports = function load(options) {
   options = options || {};
   const files = readdir(__dirname).then(filter(file => file.slice(-7) === '.md.hbs'));
 
   const templates = files
     .then(reduce((templates, file) => templates.concat([
-      getHookTemplate('pre', file, pkgPath, options),
+      getHookTemplate('pre', file, options),
       getTemplate(file),
-      getHookTemplate('post', file, pkgPath, options)
+      getHookTemplate('post', file, options)
     ]), []))
     .then(all);
 
@@ -50,18 +49,19 @@ function getTemplate(file) {
   });
 }
 
-function getHookTemplate(type, file, pkgPath, options) {
+function getHookTemplate(type, file, options) {
   const hook = `${type}${fileToTemplateName(file).replace('Section', '')}`;
   return all({
     name: hook,
     template: and(
       options[hook] || '',
-      lazyCall(read, lazyCall(path.resolve, pkgPath, options[hook]))
+      lazyCall(read, lazyCall(path.resolve, options.cwd, options[hook]))
     )
   });
 }
 
 function lazyCall() {
+  /* eslint prefer-spread: 0 */
   const args = Array.prototype.slice.call(arguments);
   return new LazyPromise((resolve, reject) => call.apply(null, args).then(resolve, reject));
 }
