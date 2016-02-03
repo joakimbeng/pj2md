@@ -25,18 +25,19 @@ Generate a README in markdown from a package.json file
     pj2md [options]
 
   Options:
-    -o, --out=<file>  Output to file instead of stdout
-    -f, --force       Overwrite any existing output file
-    -l, --logo=<path> Add the provided file as a logo, using http://rawgit.com/ url's (1)
-    --no-badges       Don't add any badges to readme
-    --no-travis       Don't add a Travis build badge (2)
-    --no-codestyle    Don't add a code style badge (3)
-    --no-module       Don't add module usage information (4)
-    --no-api          Don't add API information (4)
-    --no-cli          Don't add CLI usage information (5)
-    --no-license      Don't add license information to readme
-    -v, --version     Show version number
-    -h, --help        Show help
+    -o, --out=<file>     Output to file instead of stdout
+    -f, --force          Overwrite any existing output file
+    -l, --logo=<path>    Add the provided file as a logo, using http://rawgit.com/ url's (1)
+    -r, --related=<pkg>  Add a package as a related package in readme (can be set multiple times)
+    --no-badges          Don't add any badges to readme
+    --no-travis          Don't add a Travis build badge (2)
+    --no-codestyle       Don't add a code style badge (3)
+    --no-module          Don't add module usage information (4)
+    --no-api             Don't add API information (4)
+    --no-cli             Don't add CLI usage information (5)
+    --no-license         Don't add license information to readme
+    -v, --version        Show version number
+    -h, --help           Show help
 
       1) only applicable when package has a 'repository' section
       2) only applicable when there's a '.travis.yml' file in project

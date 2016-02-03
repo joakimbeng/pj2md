@@ -1,9 +1,11 @@
 'use strict';
 const path = require('path');
+const arrify = require('arrify');
 const pathExists = require('path-exists');
 const parseAuthor = require('parse-author');
 const username = require('gh-repo-to-user');
 const readPkgUp = require('read-pkg-up');
+const getPkgs = require('get-pkgs');
 const camelcase = require('camelcase');
 const getApi = require('get-api');
 const or = require('promise-or');
@@ -24,10 +26,12 @@ module.exports = exports = function pj2md(options) {
     codestyle: true,
     cli: true,
     license: true,
-    travis: true
+    travis: true,
+    related: null
   }, options);
 
   const badges = options.badges;
+  const related = arrify(options.related);
   const readPkg = readPackage(options.cwd);
   const pkg = get('pkg', readPkg);
   const pkgPath = call(path.dirname, get('path', readPkg));
@@ -54,6 +58,7 @@ module.exports = exports = function pj2md(options) {
     travis: and(options.travis, hasTravisYml, user),
     codestyle: and(options.codestyle, getCodeStyle(pkg)),
     commands: and(cli, getCliCommands(pkgPath, cli)),
+    related: and(related.length, getRelatedPkgs(related)),
     methods: and(api, getApiMethods(pkgPath, module, moduleName))
   };
 
@@ -104,6 +109,17 @@ function getCommandHelp(pkgPath, cmd) {
       name: cmd.name,
       usage: usage.trim()
     }));
+}
+
+function getRelatedPkgs(related) {
+  return new LazyPromise((resolve, reject) => {
+    getPkgs(related, (err, pkgs) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(pkgs);
+    });
+  });
 }
 
 function getApiMethods(pkgPath, mainModule, moduleName) {

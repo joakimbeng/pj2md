@@ -21,6 +21,10 @@ npm install {{#if pkg.preferGlobal }}-g{{else}}--save{{/if}}{{#each pkg.peerDepe
 
 {{> usageSection}}
 {{/if}}
+{{#if related}}
+
+{{> relatedSection}}
+{{/if}}
 {{#if api}}
 
 {{> apiSection}}

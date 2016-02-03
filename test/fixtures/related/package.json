@@ -1,0 +1,11 @@
+{
+  "name": "related",
+  "description": "A module with related packages",
+  "license": "MIT",
+  "pj2md": {
+    "related": [
+      "promise-all",
+      "promise-or"
+    ]
+  }
+}

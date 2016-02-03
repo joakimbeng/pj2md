@@ -33,8 +33,10 @@
   },
   "homepage": "https://github.com/joakimbeng/pj2md#readme",
   "dependencies": {
+    "arrify": "^1.0.1",
     "camelcase": "^2.1.0",
     "get-api": "^1.0.1",
+    "get-pkgs": "^0.3.0",
     "gh-repo-to-user": "^1.1.0",
     "handlebars": "^4.0.5",
     "lazy-promise": "^3.0.1",
