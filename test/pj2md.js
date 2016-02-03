@@ -17,7 +17,7 @@ const readFile = pify(fs.readFile);
 const dirs = fs.readdirSync(resolve(__dirname, 'fixtures'));
 const cwd = folder => ({cwd: resolve(__dirname, 'fixtures', folder)});
 const pkg = folder => readPkgUp.sync(cwd(folder));
-const pj2md = (...args) => exec(resolve(__dirname, '..', 'bin', 'pj2md'), ...args);
+const pj2md = (...args) => exec(resolve(__dirname, '..', 'bin', 'pj2md.js'), ...args);
 const readme = folder => readFile(resolve(__dirname, 'fixtures', folder, 'README.md'), 'utf8');
 
 dirs.forEach(folder => {

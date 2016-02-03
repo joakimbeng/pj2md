@@ -13,7 +13,7 @@
     "postreadme": "cp -f README.md test/fixtures/subfolder/"
   },
   "bin": {
-    "pj2md": "bin/pj2md"
+    "pj2md": "bin/pj2md.js"
   },
   "repository": {
     "type": "git",
