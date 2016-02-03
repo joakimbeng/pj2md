@@ -1,3 +1,4 @@
+{{> preinstall}}
 ## Installation
 
 Install `{{pkg.name}}`{{#if pkg.preferGlobal }} globally{{/if}}{{#if pkg.peerDependencies}} and it's peers: {{#each pkg.peerDependencies}}{{#unless @first}}, {{/unless}}`{{@key}}`{{/each}}{{/if}} using [npm](https://www.npmjs.com/):
@@ -5,3 +6,4 @@ Install `{{pkg.name}}`{{#if pkg.preferGlobal }} globally{{/if}}{{#if pkg.peerDep
 ```bash
 npm install {{#if pkg.preferGlobal }}-g{{else}}--save{{/if}}{{#each pkg.peerDependencies}} {{@key}}{{/each}} {{pkg.name}}
 ```
+{{> postinstall}}

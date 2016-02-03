@@ -1,0 +1,9 @@
+{
+  "name": "hooks",
+  "description": "A module with hooks",
+  "main": "./index.js",
+  "pj2md": {
+    "postdescription": "DESCRIPTION.md",
+    "preapi": "OTHER.md"
+  }
+}

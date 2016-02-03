@@ -1,7 +1,9 @@
 {{#if related}}
+{{> prerelated}}
 
 ## Related packages
 
 {{#each related}}* [`{{name}}`](https://www.npmjs.com/package/{{name}}) - {{description}}
 {{/each}}
+{{> postrelated}}
 {{/if}}

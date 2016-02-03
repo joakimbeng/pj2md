@@ -1,3 +1,6 @@
+{{#if module}}
+{{> premodule}}
+
 ### Module usage
 
 ```javascript
@@ -5,3 +8,5 @@ const {{moduleName}} = require('{{pkg.name}}');
 
 // ...
 ```
+{{> postmodule}}
+{{/if}}

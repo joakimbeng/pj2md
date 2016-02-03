@@ -1,12 +1,8 @@
 {{#if usage}}
+{{> preusage}}
 
 ## Usage
-{{#if module}}
-
 {{> moduleSection}}
-{{/if}}
-{{#if cli}}
-
 {{> cliSection}}
-{{/if}}
+{{> postusage}}
 {{/if}}

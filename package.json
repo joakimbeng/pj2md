@@ -48,9 +48,12 @@
     "pkg-conf": "^1.1.1",
     "promise-all": "^1.0.0",
     "promise-and": "^1.0.0",
+    "promise-filter": "^1.1.0",
     "promise-fncall": "^1.1.1",
     "promise-get": "^1.0.0",
+    "promise-map": "^1.1.0",
     "promise-or": "^1.0.0",
+    "promise-reduce": "^2.0.0",
     "read-pkg-up": "^1.0.1"
   },
   "devDependencies": {

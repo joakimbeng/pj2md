@@ -1,3 +1,6 @@
+{{# if cli}}
+{{> precli}}
+
 ### CLI usage
 
 {{#each commands}}```
@@ -7,3 +10,5 @@ $> {{name}} --help
 ```
 
 {{/each}}
+{{> postcli}}
+{{/if}}

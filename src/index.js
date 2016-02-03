@@ -14,7 +14,7 @@ const all = require('promise-all');
 const get = require('promise-get');
 const call = require('promise-fncall');
 const LazyPromise = require('lazy-promise');
-const render = require('../templates');
+const templates = require('../templates');
 const exec = require('./exec');
 
 module.exports = exports = function pj2md(options) {
@@ -42,6 +42,7 @@ module.exports = exports = function pj2md(options) {
   const cli = and(options.cli, get('bin', pkg));
   const api = and(options.api, get('main', pkg));
   const license = and(options.license, get('license', pkg));
+  const render = templates(pkgPath, options);
 
   const context = {
     badges,
