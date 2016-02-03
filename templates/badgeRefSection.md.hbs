@@ -1,0 +1,9 @@
+{{#if badges}}
+
+[npm-url]: https://npmjs.org/package/{{pkg.name}}
+[npm-image]: https://badge.fury.io/js/{{pkg.name}}.svg{{#if travis}}
+[travis-url]: https://travis-ci.org/{{user}}/{{pkg.name}}
+[travis-image]: https://travis-ci.org/{{user}}/{{pkg.name}}.svg?branch=master{{/if}}{{#if codestyle}}
+[codestyle-url]: https://github.com/{{codestyle.repo}}
+[codestyle-image]: https://img.shields.io/badge/code%20style-{{codestyle.name}}-{{codestyle.color}}.svg?style=flat{{/if}}
+{{/if}}
