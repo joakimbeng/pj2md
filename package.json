@@ -1,6 +1,6 @@
 {
   "name": "pj2md",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "preferGlobal": true,
   "description": "Generate a README in markdown from a package.json file",
   "main": "src/index.js",
