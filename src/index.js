@@ -38,9 +38,10 @@ module.exports = exports = function pj2md(options) {
   const hasTravisYml = call(path.resolve, pkgPath, '.travis.yml').then(pathExists);
   const moduleName = call(camelcase, get('name', pkg));
   const user = call(username, get('repository', pkg));
-  const module = and(options.module, get('main', pkg));
+  const main = get('main', pkg);
+  const module = and(options.module, main);
   const cli = and(options.cli, get('bin', pkg));
-  const api = and(options.api, get('main', pkg));
+  const api = and(options.api, main);
   const license = and(options.license, get('license', pkg));
   const render = templates(options);
 
@@ -60,7 +61,7 @@ module.exports = exports = function pj2md(options) {
     codestyle: and(options.codestyle, getCodeStyle(pkg)),
     commands: and(cli, getCliCommands(pkgPath, cli)),
     related: and(related.length, getRelatedPkgs(related)),
-    methods: and(api, getApiMethods(pkgPath, module, moduleName))
+    methods: and(api, getApiMethods(pkgPath, main, moduleName))
   };
 
   return render(context);
